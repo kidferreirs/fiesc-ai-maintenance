@@ -1,0 +1,366 @@
+=== PÁGINA 1 ===
+Procedimento para Diagnóstico e Correção de Problemas em Rolamentos
+
+1. Objetivo
+
+Este documento estabelece o procedimento para identificação, diagnóstico, correção e validação de falhas em rolamentos utilizados em máquinas rotativas.
+
+O objetivo é detectar precocemente defeitos mecânicos, evitar falhas catastróficas, reduzir paradas não programadas e aumentar a confiabilidade operacional do equipamento.
+
+2. Introdução
+
+Os rolamentos são componentes responsáveis por suportar cargas radiais e axiais, permitindo a rotação com baixo atrito entre elementos mecânicos.
+
+São considerados componentes críticos em:
+- Motores elétricos;
+- Bombas;
+- Ventiladores;
+- Compressores;
+- Redutores;
+- Exaustores;
+- Transportadores;
+- Máquinas rotativas em geral.
+
+Grande parte das falhas mecânicas em equipamentos rotativos está associada direta ou indiretamente aos rolamentos.
+
+3. Componentes do Rolamento
+
+Um rolamento típico é composto por:
+- Anel externo (Outer Race);
+- Anel interno (Inner Race);
+- Elementos rolantes (esferas ou rolos);
+- Gaiola (Cage);
+- Sistema de vedação;
+- Lubrificante.
+
+=== PÁGINA 2 ===
+4. Principais Modos de Falha
+
+4.1 Defeito na Pista Externa (Outer Race Fault)
+
+Ocorre quando existe dano localizado na pista externa.
+
+Causas:
+- Fadiga;
+- Contaminação;
+- Lubrificação inadequada;
+- Sobrecarga.
+
+4.2 Defeito na Pista Interna (Inner Race Fault)
+
+Ocorre quando existe dano localizado na pista interna.
+
+Causas:
+- Sobrecarga;
+- Montagem inadequada;
+- Fadiga do material.
+
+=== PÁGINA 3 ===
+4.3 Defeito nos Elementos Rolantes (Ball/Roller Fault)
+
+Ocorre quando esferas ou rolos apresentam desgaste ou trincas.
+
+Causas:
+- Contaminação;
+- Lubrificação inadequada;
+- Fadiga.
+
+4.4 Defeito na Gaiola (Cage Fault)
+
+Acontece quando a estrutura que mantém os elementos rolantes espaçados sofre desgaste ou ruptura.
+
+Consequências:
+- Vibração irregular;
+- Ruído excessivo;
+- Falha acelerada.
+
+=== PÁGINA 4 ===
+4.5 Lubrificação Deficiente
+
+Uma das causas mais comuns de falha.
+
+Problemas típicos:
+- Falta de graxa;
+- Excesso de graxa;
+- Lubrificante inadequado;
+- Contaminação.
+
+5. Sintomas Comuns
+
+Falhas em rolamentos normalmente apresentam:
+- Vibração elevada;
+- Ruído crescente;
+- Aquecimento;
+- Aumento do consumo de energia;
+- Perda de eficiência;
+- Vibração em altas frequências;
+- Desgaste acelerado de componentes adjacentes.
+
+=== PÁGINA 5 ===
+6. Ferramentas Necessárias
+
+- Medidor de vibração;
+- Acelerômetros;
+- Coletor de dados;
+- Analisador FFT;
+- Termômetro infravermelho;
+- Estetoscópio mecânico;
+- Tacômetro;
+- Extrator de rolamentos;
+- Ferramentas mecânicas;
+- EPIs adequados.
+
+7. Segurança
+
+Antes da intervenção:
+1. Desligar o equipamento.
+2. Aplicar bloqueio e etiquetagem.
+3. Confirmar ausência de energia.
+4. Aguardar parada completa.
+5. Utilizar EPIs adequados.
+
+=== PÁGINA 6 ===
+8. Inspeção Visual
+
+Verificar:
+- Vazamento de graxa;
+- Corrosão;
+- Vedação danificada;
+- Contaminação;
+- Desgaste aparente;
+- Descoloração por temperatura.
+
+Registrar todas as anomalias.
+
+9. Monitoramento de Temperatura
+
+Medir a temperatura dos mancais.
+
+Comparar com:
+- Histórico do equipamento;
+- Equipamentos similares;
+- Valores de referência do fabricante.
+
+=== PÁGINA 7 ===
+Sintomas
+
+Temperatura elevada pode indicar:
+- Falta de lubrificação;
+- Sobrecarga;
+- Falha interna.
+
+10. Diagnóstico por Vibração
+
+Realizar medições:
+- Horizontal;
+- Vertical;
+- Axial.
+
+Registrar:
+- RMS;
+- Pico;
+- FFT;
+- Envelope (quando disponível).
+
+=== PÁGINA 8 ===
+11. Frequências Características dos Rolamentos
+
+Cada rolamento possui frequências específicas associadas aos seus componentes.
+
+As principais são:
+
+BPFO
+Ball Pass Frequency Outer Race
+Relacionada à pista externa.
+
+BPFI
+Ball Pass Frequency Inner Race
+Relacionada à pista interna.
+
+BSF
+Ball Spin Frequency
+Relacionada aos elementos rolantes.
+
+=== PÁGINA 9 ===
+FTF
+Fundamental Train Frequency
+Relacionada à gaiola.
+
+12. Diagnóstico de Defeito na Pista Externa
+
+Características:
+- Pico em BPFO;
+- Harmônicos de BPFO;
+- Aumento gradual da vibração.
+
+Sintomas:
+- Ruído periódico;
+- Vibração localizada;
+- Aquecimento.
+
+=== PÁGINA 10 ===
+13. Diagnóstico de Defeito na Pista Interna
+
+Características:
+- Pico em BPFI;
+- Harmônicos;
+- Bandas laterais associadas à RPM.
+
+Sintomas:
+- Vibração crescente;
+- Ruído mais intenso sob carga.
+
+14. Diagnóstico de Defeito nos Elementos Rolantes
+
+Características:
+- Pico em BSF;
+- Harmônicos;
+- Vibração irregular.
+
+=== PÁGINA 11 ===
+Sintomas:
+- Ruído metálico;
+- Vibração variável.
+
+15. Diagnóstico de Defeito na Gaiola
+
+Características:
+- Pico em FTF;
+- Frequências de baixa ordem;
+- Instabilidade vibracional.
+
+Sintomas:
+- Ruído irregular;
+- Vibração intermitente.
+
+=== PÁGINA 12 ===
+16. Diagnóstico por Envelope
+
+Quando disponível, utilizar análise de envelope.
+
+Benefícios:
+- Maior sensibilidade;
+- Detecção precoce;
+- Identificação precisa da região danificada.
+
+17. Inspeção Mecânica
+
+Após desmontagem verificar:
+- Marcas de desgaste;
+- Trincas;
+- Pitting;
+- Corrosão;
+- Descoloração térmica;
+- Falhas na gaiola;
+- Contaminação.
+
+=== PÁGINA 13 ===
+18. Avaliação da Lubrificação
+
+Verificar:
+- Quantidade;
+- Cor;
+- Contaminação;
+- Viscosidade;
+- Presença de partículas.
+
+19. Correção da Falha
+
+Caso 1 – Falta de Lubrificação
+
+Procedimento:
+1. Limpar o sistema.
+2. Aplicar lubrificante correto.
+3. Ajustar plano de relubrificação.
+
+=== PÁGINA 14 ===
+Caso 2 – Contaminação
+
+Procedimento:
+1. Limpar alojamento.
+2. Substituir vedações.
+3. Trocar lubrificante.
+
+Caso 3 – Rolamento Danificado
+
+Procedimento:
+1. Remover o rolamento.
+2. Inspecionar eixo e alojamento.
+3. Instalar novo rolamento.
+4. Aplicar lubrificação adequada.
+5. Validar montagem.
+
+Caso 4 – Falha de Alinhamento
+
+Procedimento:
+1. Corrigir alinhamento.
+2. Verificar cargas.
+3. Validar funcionamento.
+
+=== PÁGINA 15 ===
+20. Instalação do Novo Rolamento
+
+Durante a instalação:
+- Não aplicar impacto direto;
+- Utilizar ferramentas adequadas;
+- Respeitar interferências especificadas;
+- Garantir limpeza absoluta.
+
+21. Validação Final
+
+Após a correção:
+1. Operar o equipamento.
+2. Medir vibração.
+3. Medir temperatura.
+4. Avaliar ruído.
+5. Comparar com valores anteriores.
+
+=== PÁGINA 16 ===
+22. Critérios de Aceitação
+
+O rolamento é considerado apto quando:
+- Vibração reduzida;
+- Temperatura normal;
+- Ausência de ruídos anormais;
+- Lubrificação adequada;
+- Operação estável.
+
+23. Registro da Intervenção
+
+Registrar:
+- Equipamento;
+- Tipo de rolamento;
+- Fabricante;
+- Data;
+- Vibração inicial;
+- Vibração final;
+- Temperatura inicial;
+- Temperatura final;
+- Lubrificante utilizado;
+- Componentes substituídos;
+- Responsável técnico.
+
+=== PÁGINA 17 ===
+24. Recomendações Preventivas
+
+- Monitoramento periódico de vibração;
+- Controle de lubrificação;
+- Controle de contaminação;
+- Monitoramento térmico;
+- Inspeções programadas;
+- Alinhamento adequado;
+- Controle de cargas.
+
+25. Indicadores para Monitoramento Preditivo
+
+Acompanhar:
+- RMS global;
+- Kurtosis;
+- Crest Factor;
+- Temperatura;
+- Envelope;
+- BPFO;
+- BPFI;
+- BSF;
+- FTF;
+- Tendência histórica.

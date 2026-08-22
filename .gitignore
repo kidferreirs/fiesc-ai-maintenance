@@ -1,0 +1,22 @@
+# Ambiente virtual
+.venv/
+
+# Variáveis de ambiente / credenciais
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# IDE / sistema
+.vscode/
+.idea/
+.DS_Store
+
+# Cache de modelos
+.cache/
+
+# Arquivos temporários
+*.log
