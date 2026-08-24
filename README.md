@@ -413,7 +413,7 @@ pip install -r requirements.txt
 Configure a chave da OpenAI:
 
 ```bash
-export OPENAI_API_KEY="sua-chave"
+export OPENAI_API_KEY="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"
 ```
 
 Execute a aplicação:
