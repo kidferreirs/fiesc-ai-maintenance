@@ -214,6 +214,66 @@ def serialize_neighbors(neighbors):
 
     return serialized
 
+
+def build_historical_summary(history, family, rpm):
+    # Resume a presença histórica da família candidata
+    family_history = history[
+        history["fault_family"] == family
+    ].copy()
+
+    same_rpm = family_history[
+        family_history["rpm"] == rpm
+    ].copy()
+
+    if family_history.empty:
+        return {
+            "total_occurrences": 0,
+            "same_rpm_occurrences": 0,
+            "first_occurrence": None,
+            "last_occurrence": None,
+            "frequency_per_day": 0.0,
+            "context_rpm": rpm,
+        }
+
+    dates = pd.to_datetime(
+        family_history["created_at"],
+        errors="coerce",
+        utc=True,
+    ).dropna()
+
+    first_occurrence = dates.min()
+    last_occurrence = dates.max()
+
+    if len(dates) > 0:
+        span_days = max(
+            (last_occurrence - first_occurrence).total_seconds()
+            / 86400,
+            1.0,
+        )
+        frequency_per_day = len(family_history) / span_days
+    else:
+        frequency_per_day = 0.0
+
+    return {
+        "total_occurrences": int(len(family_history)),
+        "same_rpm_occurrences": int(len(same_rpm)),
+        "first_occurrence": (
+            first_occurrence.isoformat()
+            if pd.notna(first_occurrence)
+            else None
+        ),
+        "last_occurrence": (
+            last_occurrence.isoformat()
+            if pd.notna(last_occurrence)
+            else None
+        ),
+        "frequency_per_day": round(
+            float(frequency_per_day),
+            2,
+        ),
+        "context_rpm": float(rpm),
+    }
+
 def analyze_event(
     event,
     history,
@@ -241,6 +301,12 @@ def analyze_event(
     family = similarity["candidate_family"]
     neighbors = similarity["neighbors"]
 
+    historical_summary = build_historical_summary(
+        history=history,
+        family=family,
+        rpm=float(event["rpm"]),
+    )
+
     base_result = {
         "event_id": event.get("id"),
         "rpm": float(event["rpm"]),
@@ -253,6 +319,7 @@ def analyze_event(
             similarity["mean_distance"],
             4,
         ),
+        "historical_summary": historical_summary,
         "similar_events": serialize_neighbors(
             neighbors
         ),
@@ -308,9 +375,15 @@ def analyze_event(
         return {
             "status": "abstain",
             **base_result,
-            "message": rag_result["message"],
+            "message": (
+                "Não existe documentação técnica autorizada para "
+                f"a família '{family}'. Registre um novo documento "
+                "técnico para o defeito antes de solicitar uma "
+                "recomendação automática."
+            ),
             "recommendation": None,
             "sources": [],
+            "abstain_reason": "no_documentation",
         }
 
     if rag_result["status"] == "error":

@@ -106,6 +106,48 @@ def show_recommendation(recommendation):
             f"— página {source['page']}"
         )
 
+def show_historical_summary(summary):
+    if not summary:
+        return
+
+    st.subheader("Resumo histórico")
+
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric(
+        "Registros históricos da família",
+        summary.get("total_occurrences", 0),
+    )
+
+    col2.metric(
+        "Registros no mesmo RPM",
+        summary.get("same_rpm_occurrences", 0),
+    )
+
+    context_rpm = summary.get(
+        "context_rpm",
+        "-",
+    )
+
+    col3.metric(
+        "Regime analisado",
+        f"{context_rpm} RPM",
+    )
+
+    first_occurrence = summary.get(
+        "first_occurrence"
+    )
+    last_occurrence = summary.get(
+        "last_occurrence"
+    )
+
+    st.caption(
+        "Período histórico: "
+        f"{first_occurrence or '-'} até "
+        f"{last_occurrence or '-'}"
+    )
+
+
 def show_result(result):
     status = result.get("status")
 
@@ -159,6 +201,13 @@ def show_result(result):
         "Não representa probabilidade ou diagnóstico confirmado."
     )
 
+    show_historical_summary(
+        result.get(
+            "historical_summary",
+            {}
+        )
+    )
+
     st.subheader("Eventos históricos semelhantes")
 
     show_similar_events(
@@ -187,8 +236,9 @@ def show_result(result):
         else:
             st.info(
                 "Nenhuma chamada generativa foi realizada porque "
-                "não existe documentação técnica autorizada para fundamentar "
-                "uma recomendação."
+                "não existe documentação técnica autorizada. "
+                "Registre um novo documento técnico para o defeito "
+                "antes de solicitar uma recomendação automática."
             )
 
 def main():
@@ -285,10 +335,15 @@ def main():
                     result
                 )
 
-            st.success(
-                f"Análise concluída e registrada "
-                f"com ID {analysis_id}."
-            )
+            if result.get("status") == "invalid_input":
+                st.info(
+                    f"Tentativa registrada com ID {analysis_id}."
+                )
+            else:
+                st.success(
+                    f"Análise concluída e registrada "
+                    f"com ID {analysis_id}."
+                )
 
             show_result(result)
 

@@ -153,7 +153,7 @@ Famílias documentadas utilizadas na POC incluem:
 
 Documentos não disponíveis ou famílias sem documentação autorizada não são complementados com conhecimento externo.
 
-Nesses casos o sistema se abstém de gerar uma recomendação.
+Nesses casos o sistema se abstém de gerar uma recomendação e orienta o usuário a registrar um novo documento técnico para o defeito antes de solicitar uma nova recomendação automática.
 
 ---
 
@@ -248,6 +248,8 @@ abstain_reason = low_confidence
 
 Mesmo que exista uma família candidata, o sistema não utiliza conhecimento externo quando não existe documentação autorizada.
 
+Nesse caso, nenhuma chamada generativa é realizada e o sistema orienta o registro de um novo documento técnico para a família antes de uma nova tentativa de recomendação.
+
 ### Grounding
 
 Quando a recomendação é permitida, a LLM recebe somente os chunks técnicos recuperados.
@@ -316,6 +318,10 @@ A interface possui:
 
 - nova análise;
 - histórico das análises;
+- resumo histórico da família candidata;
+- quantidade de registros da família;
+- quantidade de registros no mesmo RPM;
+- período histórico e regime operacional analisado;
 - visualização dos eventos similares;
 - evidências técnicas;
 - interpretação;
@@ -330,12 +336,64 @@ streamlit run src/app.py
 
 ---
 
-## 10. Instalação
+## 10. Arquitetura Proposta para Ambiente Industrial
+
+A POC foi desenvolvida de forma modular para permitir evolução para um ambiente industrial sem acoplar a interface, o mecanismo de similaridade, a recuperação documental e a camada generativa.
+
+Uma possível arquitetura de implantação é:
+
+```text
+Sensores / PLC / Sistemas industriais
+              |
+              v
+     Camada de ingestão de dados
+              |
+              v
+ Banco de dados corporativo / histórico
+              |
+              v
+      Serviço de análise Python
+       |                  |
+       |                  +---- Similaridade histórica
+       |                  +---- Confidence Gate
+       |                  +---- Base documental / RAG
+       |                  +---- LLM
+       |
+       v
+          API interna
+       |             |
+       v             v
+Dashboard       Sistema de manutenção
+       \             /
+        \           /
+         v         v
+        Banco de auditoria
+```
+
+### Princípios para implantação
+
+- execução do serviço de análise em ambiente controlado;
+- integração com fontes industriais através de APIs ou camada de ingestão;
+- acesso controlado ao histórico operacional;
+- armazenamento seguro de credenciais em serviço de secrets;
+- autenticação e controle de acesso;
+- versionamento da documentação técnica;
+- logs e trilha de auditoria das análises;
+- observabilidade do serviço e dos modelos;
+- aprovação humana antes de intervenções críticas;
+- possibilidade de execução containerizada;
+- separação entre inferência, persistência e interface.
+
+A recomendação da IA permanece como apoio à decisão. O desenho não prevê atuação autônoma da LLM sobre máquinas, PLCs ou sistemas de controle.
+
+---
+
+## 11. Instalação
 
 Clone o repositório:
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/kidferreirs/fiesc-ai-maintenance.git
 cd fiesc-ai-maintenance
 ```
 
@@ -366,7 +424,7 @@ streamlit run src/app.py
 
 ---
 
-## 11. Principais Arquivos
+## 12. Principais Arquivos
 
 ```text
 src/
@@ -417,7 +475,7 @@ Experimento utilizado para avaliar os critérios do confidence gate.
 
 ---
 
-## 12. Resultados e Decisões Técnicas
+## 13. Resultados e Decisões Técnicas
 
 Durante o desenvolvimento foram testadas diferentes estratégias.
 
@@ -457,7 +515,7 @@ Por esse motivo a POC adota uma estratégia conservadora: **é preferível não 
 
 ---
 
-## 13. Testes Funcionais
+## 14. Testes Funcionais
 
 Foram validados três cenários principais.
 
@@ -496,7 +554,7 @@ O pipeline interrompeu o processamento antes da inferência.
 
 ---
 
-## 14. Limitações
+## 15. Limitações
 
 Esta solução é uma prova de conceito.
 
@@ -513,7 +571,7 @@ A solução não deve ser interpretada como sistema autônomo de diagnóstico ou
 
 ---
 
-## 15. Possíveis Evoluções
+## 16. Possíveis Evoluções
 
 Como evolução da arquitetura:
 
@@ -531,7 +589,7 @@ Como evolução da arquitetura:
 
 ---
 
-## 16. Tecnologias
+## 17. Tecnologias
 
 - Python
 - Pandas
@@ -556,5 +614,7 @@ A arquitetura foi desenhada para separar três conceitos:
 3. **a LLM organiza e apresenta a recomendação.**
 
 Quando as evidências não são suficientes, o comportamento esperado do sistema é se abster e encaminhar o caso para avaliação técnica.
+
+Quando a família candidata não possui documentação autorizada, o sistema também se abstém e orienta o registro de um novo documento técnico antes de permitir uma recomendação automática.
 
 Essa decisão reduz o risco de transformar similaridade estatística ou geração de linguagem em diagnóstico industrial não fundamentado.
