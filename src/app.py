@@ -176,10 +176,20 @@ def show_result(result):
         )
 
     elif status == "abstain":
-        st.info(
-            "Nenhuma chamada generativa é necessária quando "
-            "não existe documentação técnica autorizada."
-        )
+        reason = result.get("abstain_reason")
+
+        # Explica por que o pipeline interrompeu a análise
+        if reason == "low_confidence":
+            st.info(
+                "Nenhuma chamada generativa foi realizada porque "
+                "a evidência histórica não atingiu o nível mínimo de confiança."
+            )
+        else:
+            st.info(
+                "Nenhuma chamada generativa foi realizada porque "
+                "não existe documentação técnica autorizada para fundamentar "
+                "uma recomendação."
+            )
 
 def main():
     init_db()

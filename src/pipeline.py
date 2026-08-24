@@ -27,6 +27,10 @@ DATA_PATH = (
 
 TOP_K = 5
 
+# Gate calibrado no experimento de confiança
+MIN_HISTORICAL_SUPPORT = 1.0
+MAX_MEAN_DISTANCE = 1.0
+
 FEATURES = [
     "z_rms_velocity_mm_s",
     "x_rms_velocity_mm_s",
@@ -179,10 +183,16 @@ def find_similar_events(
         candidate_count / len(neighbors)
     )
 
+    # Distância média dos vizinhos recuperados
+    mean_distance = float(
+        neighbors["distance"].mean()
+    )
+
     return {
         "status": "ok",
         "candidate_family": candidate_family,
         "historical_support": historical_support,
+        "mean_distance": mean_distance,
         "neighbors": neighbors,
     }
 
@@ -239,12 +249,34 @@ def analyze_event(
             similarity["historical_support"],
             4,
         ),
+        "mean_distance": round(
+            similarity["mean_distance"],
+            4,
+        ),
         "similar_events": serialize_neighbors(
             neighbors
         ),
     }
 
-    # 3. Estados não são tratados como falhas
+    # 3. Confiança mínima antes de gerar recomendação
+    if (
+        similarity["historical_support"] < MIN_HISTORICAL_SUPPORT
+        or similarity["mean_distance"] > MAX_MEAN_DISTANCE
+    ):
+        return {
+            "status": "abstain",
+            **base_result,
+            "message": (
+                "A evidência histórica não atingiu o nível mínimo "
+                "definido para gerar uma recomendação automática. "
+                "O evento deve ser encaminhado para avaliação técnica."
+            ),
+            "recommendation": None,
+            "sources": [],
+            "abstain_reason": "low_confidence",
+        }
+
+    # 4. Estados não são tratados como falhas
     if family in STATE_FAMILIES:
         return {
             "status": "state",
@@ -256,7 +288,7 @@ def analyze_event(
             ),
         }
 
-    # 4. Pergunta controlada para o RAG
+    # 5. Pergunta controlada para o RAG
     question = (
         "Com base exclusivamente na documentação técnica "
         "disponível, quais evidências devem ser verificadas "
@@ -264,7 +296,7 @@ def analyze_event(
         f"para a família candidata '{family}'?"
     )
 
-    # 5. RAG + OpenAI
+    # 6. RAG + OpenAI
     rag_result = generate_rag_response(
         family=family,
         question=question,
@@ -288,7 +320,7 @@ def analyze_event(
             "message": rag_result["message"],
         }
 
-    # 6. Resultado final
+    # 7. Resultado final
     return {
         "status": "ready",
         **base_result,
