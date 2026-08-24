@@ -11,6 +11,10 @@ from rag_retrieval import (
     load_chunks,
 )
 from rag_response import generate_rag_response
+from database import (
+    init_db,
+    save_analysis,
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -312,6 +316,9 @@ def main():
     print("=" * 90)
     print("FIESC - PIPELINE END-TO-END")
     print("=" * 90)
+    
+    # Inicializa persistência local
+    init_db()
 
     print("\nCarregando histórico...")
     history = load_history()
@@ -368,6 +375,14 @@ def main():
         history=history,
         chunks=chunks,
         embedding_model=embedding_model,
+    )
+    
+    # Registra a análise para auditoria
+    analysis_id = save_analysis(result)
+
+    print(
+        f"\nAnálise registrada no banco "
+        f"com ID: {analysis_id}"
     )
 
     print_result(result)
