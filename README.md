@@ -67,6 +67,10 @@ Registro da análise
 
 A solução foi organizada em camadas independentes.
 
+### Diagrama da arquitetura
+
+![Arquitetura da solução](docs/images/arquitetura-fiesc-ai-maintenance.png)
+
 ### Dados históricos
 
 O dataset é carregado e normalizado para reduzir inconsistências nos rótulos de falhas.
